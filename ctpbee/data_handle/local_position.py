@@ -30,19 +30,13 @@ from ctpbee.constant import PositionData, Offset, Direction, OrderRequest, Order
 
 class LocalVariable:
     def __init__(self, data):
-        try:
-            if data.get("long") is not None:
-                self.long = float(data.get('long'))
-        except TypeError:
-            self.long = 0
+
+        if data.get("long") is not None:
+            self.long = float(data.get('long'))
         else:
             self.long = 0
         if data.get("short") is not None:
-            try:
-                self.short = float(data.get('long'))
-            #todo: error solve
-            except TypeError:
-                self.short = 0
+            self.short = float(data.get('short'))
         else:
             self.short = 0
 
@@ -164,7 +158,6 @@ class PositionHolding:
             self.short_pnl = position.pnl
             self.short_price = position.price
 
-
     def update_order(self, order: OrderData):
         """"""
         if order._is_active():
@@ -252,7 +245,6 @@ class PositionHolding:
             return [req_td]
         else:
             req_list = []
-
             if td_available > 0:
                 req_td = copy(req)
                 req_td.offset = Offset.CLOSETODAY
@@ -323,7 +315,8 @@ class PositionHolding:
             self.long_pnl = 0
         try:
             if self.short_pos == self.short_yd:
-                self.short_pnl = self.short_pos * (single.short / (self.size * self.short_pos) - self.last_price) * self.size
+                self.short_pnl = self.short_pos * (
+                            single.short / (self.size * self.short_pos) - self.last_price) * self.size
             if self.short_pos != self.short_yd:
                 self.short_pnl = self.short_pos * (self.short_price - self.last_price) * self.size
         except ZeroDivisionError:
