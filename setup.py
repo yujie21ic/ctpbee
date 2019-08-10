@@ -1,4 +1,5 @@
 import platform
+import warnings
 
 from setuptools import Extension, setup
 
@@ -107,6 +108,7 @@ if platform.system() == "Windows":
     # use pre-built pyd for windows ( support python 3.7 only )
     ext_modules = []
 elif platform.system() == "Darwin":
+    warnings.warn("因为官方并没有发布基于mac的api， 所以当前ctpbee并不支持mac下面的ctp接口")
     ext_modules = []
 else:
     ext_modules = [vnctptd, vnctpmd, vnctptd_se, vnctpmd_se]
@@ -116,7 +118,7 @@ pkgs = ['ctpbee', 'ctpbee.api', 'ctpbee.context', 'ctpbee.exceptions', 'ctpbee.d
 install_requires = ['flask>=1.1.1', "blinker", "dataclasses"]
 setup(
     name='ctpbee',
-    version='0.23',
+    version='0.24',
     description="Easy ctp trade and market support",
     author='somewheve',
     author_email='somewheve@gmail.com',
